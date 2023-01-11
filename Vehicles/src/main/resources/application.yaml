@@ -5,8 +5,8 @@ spring:
   application:
     name: vehicle
   datasource:
-    url: jdbc:postgresql://75.119.144.199:5432/ms-vehicle
-    username: admin
+    url: jdbc:postgresql://localhost:5432/ms-vehicle
+    username: postgres
     password: pwd
     driver-class-name: org.postgresql.Driver
   jpa:
