@@ -19,6 +19,7 @@ logs
 
 # Properties files
 application-*.yml
+application.yml
 
 # Package files
 *.jar
