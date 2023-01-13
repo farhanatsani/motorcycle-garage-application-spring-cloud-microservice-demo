@@ -28,4 +28,5 @@ public class OrderDetail {
     private UUID id;
     private String partsId;
     private String orderId;
+    private Long quantity;
 }

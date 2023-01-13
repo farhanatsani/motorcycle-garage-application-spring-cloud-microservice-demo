@@ -1,4 +1,4 @@
-package com.garage.parts;
+package com.garage.client.parts;
 
 import lombok.Builder;
 import lombok.Data;

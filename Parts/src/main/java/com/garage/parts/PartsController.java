@@ -1,5 +1,6 @@
 package com.garage.parts;
 
+import com.garage.client.parts.PartsResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,8 @@ public class PartsController {
     @GetMapping
     public ResponseEntity<List<PartsResponse>> findAll() {
 
+        log.info("Get all parts");
+
         List<PartsResponse> responses = partsService.findAll();
 
         return ResponseEntity
@@ -41,6 +44,9 @@ public class PartsController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<List<PartsResponse>> findById(@PathVariable UUID id) {
+
+        log.info("Get partsById {}", id);
+
         List<PartsResponse> responses = partsService.findById(id);
 
         return ResponseEntity

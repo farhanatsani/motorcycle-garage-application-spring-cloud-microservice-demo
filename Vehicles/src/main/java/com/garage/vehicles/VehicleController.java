@@ -34,12 +34,18 @@ public class VehicleController {
     }
     @GetMapping
     public ResponseEntity<List<VehicleResponse>> findAll() {
-        List<VehicleResponse> vehiles = vehicleService.findAll();
+
+        log.info("Get all vehicles");
+
+        List<VehicleResponse> vehicles = vehicleService.findAll();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(vehiles);
+                .body(vehicles);
     }
     @GetMapping("/{id}")
     public ResponseEntity<List<VehicleResponse>> findById(@PathVariable UUID id) {
+
+        log.info("Get vehicleById {}", id);
+
         List<VehicleResponse> vehiles = vehicleService.findById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(vehiles);

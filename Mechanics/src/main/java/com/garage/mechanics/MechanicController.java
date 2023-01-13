@@ -31,11 +31,13 @@ public class MechanicController {
     }
     @GetMapping
     public ResponseEntity<List<MechanicResponse>> findMechanics() {
+        log.info("Find all mechanic");
         List<MechanicResponse> mechanics = mechanicService.findMechanics();
         return ResponseEntity.status(HttpStatus.OK).body(mechanics);
     }
     @GetMapping("/{id}")
     public ResponseEntity<List<MechanicResponse>> findMechanics(@PathVariable UUID id) {
+        log.info("Find mechanicById {}", id);
         List<MechanicResponse> mechanics = mechanicService.findMechanic(id);
         return ResponseEntity.status(HttpStatus.OK).body(mechanics);
     }

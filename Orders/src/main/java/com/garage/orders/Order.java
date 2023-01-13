@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -31,4 +32,5 @@ public class Order {
     private LocalDate date;
     private String plateNumber;
     private String mechanicId;
+    private BigDecimal totalPrices;
 }

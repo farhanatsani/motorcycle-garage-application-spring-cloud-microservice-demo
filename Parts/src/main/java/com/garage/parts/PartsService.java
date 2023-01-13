@@ -1,5 +1,6 @@
 package com.garage.parts;
 
+import com.garage.client.parts.PartsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
