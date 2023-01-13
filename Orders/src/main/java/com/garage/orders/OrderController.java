@@ -35,6 +35,9 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAllOrder() {
+
+        log.info("Get Orders");
+
         List<OrderResponse> orders = orderService.findAll();
 
         return ResponseEntity.status(HttpStatus.OK).body(orders);
@@ -42,6 +45,9 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<List<OrderResponse>> findOrderById(@PathVariable("id") UUID id) {
+
+        log.info("Get orderId {}", id);
+
         List<OrderResponse> orders = orderService.findByOrderId(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(orders);

@@ -8,6 +8,7 @@ import com.garage.client.parts.PartsResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class OrderService {
+    private final RestTemplate restTemplate;
     private final OrderDetailClient orderDetailClient;
     private final PartsClient partsClient;
     private final OrderRepository orderRepository;
@@ -58,7 +60,7 @@ public class OrderService {
         List<OrderDetailResponse> orderDetail = getOrderDetail(orders.stream().findAny().get().getId().toString());
 
         // Get price from parts
-        Long totalPrices = orderDetail.stream().mapToLong(OrderDetailResponse::getQuantity).sum();
+        BigDecimal totalPrices = getTotalPrices(orderDetail);
 
         List<OrderResponse> orderResponses = orders
                 .stream()
@@ -70,7 +72,7 @@ public class OrderService {
                                 .invoiceNumber(order.getInvoiceNumber())
                                 .mechanicId(order.getMechanicId())
                                 .orderDetail(orderDetail)
-                                .totalPrices(new BigDecimal(totalPrices))
+                                .totalPrices(totalPrices)
                                 .build())
                 .collect(Collectors.toList());
         return orderResponses;
@@ -81,7 +83,6 @@ public class OrderService {
 
         Order order = orderOptional.get();
         List<OrderDetailResponse> orderDetail = getOrderDetail(order.getId().toString());
-        log.info("TEST {}", orderDetail.size());
 
         List<OrderResponse> orderResponses = Arrays.asList(
                 OrderResponse.builder()
@@ -99,20 +100,32 @@ public class OrderService {
     }
 
     public List<OrderDetailResponse> getOrderDetail(String id) {
+//        List<OrderDetailResponse> orderDetails = Arrays.asList(restTemplate
+//                .getForObject("http://localhost:8500/order-detail", OrderDetailResponse[].class, id));
+
         List<OrderDetailResponse> orderDetails = orderDetailClient
                 .getOrderDetailByOrderId(id);
+
+        log.info("Test Order Detail {}", orderDetails.size());
+
         return orderDetails;
     }
 
     public BigDecimal getTotalPrices(List<OrderDetailResponse> detailResponses) {
+
+        log.info("detailResponse size {}", detailResponses.size());
+
         Long totalPrices = 0L;
         for(OrderDetailResponse detailResponse: detailResponses) {
             PartsResponse partsResponse = partsClient.getParts(UUID.fromString(detailResponse.getPartsId()))
                     .stream().findAny().get();
 
             log.info("PartsResponse {}", partsResponse);
+            log.info("PartsPrice {}", partsResponse.getPrice().longValue());
 
             totalPrices += (detailResponse.getQuantity() * partsResponse.getPrice().longValue());
+
+            log.info("totalPrice {}", totalPrices);
         }
         return new BigDecimal(totalPrices);
     }
