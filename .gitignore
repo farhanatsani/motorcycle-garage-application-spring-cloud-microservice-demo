@@ -18,7 +18,6 @@ logs
 *.log
 
 # Properties files
-application-*.yml
 application.yaml
 
 # Package files

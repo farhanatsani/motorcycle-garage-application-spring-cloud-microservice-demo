@@ -101,31 +101,23 @@ public class OrderService {
 
     public List<OrderDetailResponse> getOrderDetail(String id) {
 //        List<OrderDetailResponse> orderDetails = Arrays.asList(restTemplate
-//                .getForObject("http://localhost:8500/order-detail", OrderDetailResponse[].class, id));
+//                .getForObject("http://ORDER-DETAILS/order-detail", OrderDetailResponse[].class, id));
 
         List<OrderDetailResponse> orderDetails = orderDetailClient
                 .getOrderDetailByOrderId(id);
 
-        log.info("Test Order Detail {}", orderDetails.size());
+        log.info("Order Detail Item {}", orderDetails.size());
 
         return orderDetails;
     }
 
     public BigDecimal getTotalPrices(List<OrderDetailResponse> detailResponses) {
-
-        log.info("detailResponse size {}", detailResponses.size());
-
         Long totalPrices = 0L;
         for(OrderDetailResponse detailResponse: detailResponses) {
             PartsResponse partsResponse = partsClient.getParts(UUID.fromString(detailResponse.getPartsId()))
                     .stream().findAny().get();
 
-            log.info("PartsResponse {}", partsResponse);
-            log.info("PartsPrice {}", partsResponse.getPrice().longValue());
-
             totalPrices += (detailResponse.getQuantity() * partsResponse.getPrice().longValue());
-
-            log.info("totalPrice {}", totalPrices);
         }
         return new BigDecimal(totalPrices);
     }

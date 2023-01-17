@@ -28,7 +28,7 @@ public class OrderDetailService {
     public List<OrderDetailResponse> findAll() {
         List<OrderDetail> orders = orderDetailRepository.findAll();
 
-        log.info("ordersSize {}", orders.size());
+        log.info("orderDetailItem {}", orders.size());
 
         List<OrderDetailResponse> orderDetailResponses = orders.stream()
                 .map(orderDetail -> OrderDetailResponse.builder()
@@ -45,7 +45,7 @@ public class OrderDetailService {
     public List<OrderDetailResponse> findById(UUID id) {
         List<OrderDetail> orders = orderDetailRepository.findById(id).stream().collect(Collectors.toList());
 
-        log.info("ordersSize {}", orders.size());
+        log.info("orderDetailItem {}", orders.size());
 
         List<OrderDetailResponse> orderDetailResponses = orders.stream()
                 .map(orderDetail -> OrderDetailResponse.builder()
@@ -62,7 +62,7 @@ public class OrderDetailService {
     public List<OrderDetailResponse> findByOrderId(String orderId) {
         List<OrderDetail> orders = orderDetailRepository.findByOrderIdIs(orderId);
 
-        log.info("ordersSize {}", orders.size());
+        log.info("orderDetailItem {}", orders.size());
 
         List<OrderDetailResponse> orderDetailResponses = orders.stream()
                 .map(orderDetail -> OrderDetailResponse.builder()
