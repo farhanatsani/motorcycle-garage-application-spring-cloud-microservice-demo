@@ -15,7 +15,8 @@
 		<module>Parts</module>
 		<module>OrderDetails</module>
 		<module>Base</module>
-	</modules>
+        <module>ApiGateway</module>
+    </modules>
 
 	<properties>
 		<java.version>11</java.version>
